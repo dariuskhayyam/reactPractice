@@ -1,28 +1,17 @@
 import React from 'react';
+import {BrowserRouter as Router, Route} from 'react-router-dom'
 import Todos from './components/todo';
 import Header from './components/layout/header';
 import Submit from './components/Submit';
-import uuid from 'uuid;'
+import uuid from 'uuid';
+import About from './components/pages/about';
+
 
 
 class App extends React.Component {
   state = {
     todos: [
-      {
-        id: uuid.v4(),
-        title: `take out the trash`,
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: `have dinner`,
-        completed: false
-      },
-      {
-        id: uuid.v4(),
-        title: `meeting with boss`,
-        completed: false
-      }
+
     ]
   }
 
@@ -49,13 +38,25 @@ class App extends React.Component {
     this.setState({todos: [...this.state.todos, newTodo]});
   }
 
+  
+
   render(){
     return (
+      <Router>
       <div className="App">
-        <Header />
-        <Submit Submit={this.Submit}/>
-        <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo}/>
+        <Header/>
+        <Route exact path="/" render={props => (
+          <React.Fragment>
+            <Submit Submit={this.Submit}/>
+            <Todos todos={this.state.todos} markComplete={this.markComplete} delTodo={this.delTodo}/>
+          </React.Fragment>
+        
+        )}/>
+
+        <Route path="/about" component={About}/>
+
       </div>
+      </Router>
     );
   }
 }
